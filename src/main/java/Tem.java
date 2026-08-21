@@ -1,10 +1,11 @@
 import java.util.Scanner;
 
 /**
- * A simple command-line assistant that echoes user commands until asked to exit.
+ * A simple command-line assistant that stores tasks until asked to exit.
  */
 public class Tem {
     private static final String DIVIDER = "____________________________________________________________";
+    private static final int MAX_TASKS = 100;
 
     /**
      * Starts Tem and processes commands entered through standard input.
@@ -24,14 +25,27 @@ public class Tem {
         System.out.println(DIVIDER);
 
         Scanner scanner = new Scanner(System.in);
+        String[] tasks = new String[MAX_TASKS];
+        int taskCount = 0;
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
-            System.out.println(command.equals("bye") ? "Bye. Hope to see you again soon!" : command);
-            System.out.println(DIVIDER);
 
             if (command.equals("bye")) {
+                System.out.println("Bye. Hope to see you again soon!");
+                System.out.println(DIVIDER);
                 break;
             }
+
+            if (command.equals("list")) {
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println((i + 1) + ". " + tasks[i]);
+                }
+            } else {
+                tasks[taskCount] = command;
+                taskCount++;
+                System.out.println("added: " + command);
+            }
+            System.out.println(DIVIDER);
         }
     }
 }
