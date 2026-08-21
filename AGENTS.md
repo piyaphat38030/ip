@@ -33,10 +33,3 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
-
-## UI testing workflow
-
-After each code update that affects Tem's commands, task behavior, or displayed output:
-
-1. Update `test/ui-test-plan.md` if the relevant expected behavior or coverage has changed.
-2. Invoke the project `test-ui` skill and resolve any failing test before handing over the change.
