@@ -1,7 +1,7 @@
 /**
  * Represents one task in Tem's task list and whether it has been completed.
  */
-public class Task {
+public abstract class Task {
     private final String description;
     private boolean isDone;
 
@@ -39,12 +39,19 @@ public class Task {
     }
 
     /**
+     * Returns the letter identifying this task's type.
+     *
+     * @return task type letter
+     */
+    protected abstract String getTaskTypeIcon();
+
+    /**
      * Returns this task in the format shown to the user.
      *
-     * @return task status and description
+     * @return task type, completion status, and description
      */
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return "[" + getTaskTypeIcon() + "][" + getStatusIcon() + "] " + description;
     }
 }

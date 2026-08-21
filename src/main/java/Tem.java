@@ -53,12 +53,83 @@ public class Tem {
                     System.out.println("  " + task);
                 }
             } else {
-                tasks[taskCount] = new Task(command);
-                taskCount++;
-                System.out.println("added: " + command);
+                Task task = createTask(command);
+                if (task != null) {
+                    tasks[taskCount] = task;
+                    taskCount++;
+                    printAddedTask(task, taskCount);
+                }
             }
             System.out.println(DIVIDER);
         }
+    }
+
+    /**
+     * Creates a task from a task-creation command.
+     *
+     * @param command command entered by the user
+     * @return the task described by the command, or {@code null} for invalid input
+     */
+    private static Task createTask(String command) {
+        if (command.startsWith("todo ")) {
+            return new Todo(command.substring("todo ".length()));
+        }
+        if (command.startsWith("deadline ")) {
+            return createDeadline(command.substring("deadline ".length()));
+        }
+        if (command.startsWith("event ")) {
+            return createEvent(command.substring("event ".length()));
+        }
+        System.out.println("I don't understand that command.");
+        return null;
+    }
+
+    /**
+     * Creates a deadline from text in the form {@code description /by time}.
+     *
+     * @param details deadline description and due time
+     * @return the created deadline, or {@code null} if the due time is missing
+     */
+    private static Task createDeadline(String details) {
+        int byIndex = details.indexOf(" /by ");
+        if (byIndex < 0) {
+            System.out.println("Use: deadline DESCRIPTION /by TIME");
+            return null;
+        }
+        String description = details.substring(0, byIndex);
+        String by = details.substring(byIndex + " /by ".length());
+        return new Deadline(description, by);
+    }
+
+    /**
+     * Creates an event from text in the form {@code description /from start /to end}.
+     *
+     * @param details event description, start time, and end time
+     * @return the created event, or {@code null} if either time is missing
+     */
+    private static Task createEvent(String details) {
+        int fromIndex = details.indexOf(" /from ");
+        int toIndex = details.indexOf(" /to ");
+        if (fromIndex < 0 || toIndex < 0 || toIndex < fromIndex) {
+            System.out.println("Use: event DESCRIPTION /from START /to END");
+            return null;
+        }
+        String description = details.substring(0, fromIndex);
+        String from = details.substring(fromIndex + " /from ".length(), toIndex);
+        String to = details.substring(toIndex + " /to ".length());
+        return new Event(description, from, to);
+    }
+
+    /**
+     * Prints the confirmation shown after adding a task.
+     *
+     * @param task task that was added
+     * @param taskCount number of tasks now in the list
+     */
+    private static void printAddedTask(Task task, int taskCount) {
+        System.out.println("Got it. I've added this task:");
+        System.out.println("  " + task);
+        System.out.println("Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
