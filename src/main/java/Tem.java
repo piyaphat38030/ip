@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -5,7 +7,6 @@ import java.util.Scanner;
  */
 public class Tem {
     private static final String DIVIDER = "____________________________________________________________";
-    private static final int MAX_TASKS = 100;
 
     /**
      * Starts Tem and processes commands entered through standard input.
@@ -25,8 +26,7 @@ public class Tem {
         System.out.println(DIVIDER);
 
         Scanner scanner = new Scanner(System.in);
-        Task[] tasks = new Task[MAX_TASKS];
-        int taskCount = 0;
+        List<Task> tasks = new ArrayList<>();
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine().trim();
 
@@ -38,25 +38,26 @@ public class Tem {
 
             try {
                 if (command.equals("list")) {
-                    printTaskList(tasks, taskCount);
+                    printTaskList(tasks);
                 } else if (command.equals("mark") || command.startsWith("mark ")) {
-                    Task task = getTask(command, tasks, taskCount);
+                    Task task = tasks.get(getTaskIndex(command, tasks, "mark as done"));
                     task.markAsDone();
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + task);
                 } else if (command.equals("unmark") || command.startsWith("unmark ")) {
-                    Task task = getTask(command, tasks, taskCount);
+                    Task task = tasks.get(getTaskIndex(command, tasks, "mark as not done"));
                     task.unmarkAsDone();
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println("  " + task);
+                } else if (command.equals("delete") || command.startsWith("delete ")) {
+                    Task deletedTask = tasks.remove(getTaskIndex(command, tasks, "delete"));
+                    System.out.println("Noted. I've removed this task:");
+                    System.out.println("  " + deletedTask);
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 } else {
-                    if (taskCount == MAX_TASKS) {
-                        throw new TemException("Your task list is full. Delete a task before adding another one.");
-                    }
                     Task task = createTask(command);
-                    tasks[taskCount] = task;
-                    taskCount++;
-                    printAddedTask(task, taskCount);
+                    tasks.add(task);
+                    printAddedTask(task, tasks.size());
                 }
             } catch (TemException exception) {
                 System.out.println("Error: " + exception.getMessage());
@@ -87,7 +88,7 @@ public class Tem {
         if (command.isEmpty()) {
             throw new TemException("Please enter a command.");
         }
-        throw new TemException("I don't recognise that command. Try todo, deadline, event, list, mark, unmark, or bye.");
+        throw new TemException("I don't recognise that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
     }
 
     /**
@@ -151,36 +152,35 @@ public class Tem {
      * Prints every task together with its one-based position in the task list.
      *
      * @param tasks tasks currently stored by Tem
-     * @param taskCount number of stored tasks
      */
-    private static void printTaskList(Task[] tasks, int taskCount) {
+    private static void printTaskList(List<Task> tasks) {
         System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + 1) + "." + tasks[i]);
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
         }
     }
 
     /**
-     * Finds the task referenced by a mark or unmark command.
+     * Finds the zero-based list position referenced by a numbered task command.
      *
      * @param command command containing a one-based task number
      * @param tasks tasks currently stored by Tem
-     * @param taskCount number of stored tasks
-     * @return the selected task
+     * @param action action described in a missing-number error message
+     * @return zero-based position of the selected task
      * @throws TemException if the task number is missing, malformed, or out of range
      */
-    private static Task getTask(String command, Task[] tasks, int taskCount) throws TemException {
+    private static int getTaskIndex(String command, List<Task> tasks, String action) throws TemException {
         int firstSpaceIndex = command.indexOf(' ');
         String taskNumberText = firstSpaceIndex < 0 ? "" : command.substring(firstSpaceIndex + 1).trim();
         if (taskNumberText.isEmpty()) {
-            throw new TemException("Please provide the task number to update.");
+            throw new TemException("Please provide the task number to " + action + ".");
         }
         try {
             int taskNumber = Integer.parseInt(taskNumberText);
-            if (taskNumber < 1 || taskNumber > taskCount) {
-                throw new TemException("Choose a task number from 1 to " + taskCount + ".");
+            if (taskNumber < 1 || taskNumber > tasks.size()) {
+                throw new TemException("Choose a task number from 1 to " + tasks.size() + ".");
             }
-            return tasks[taskNumber - 1];
+            return taskNumber - 1;
         } catch (NumberFormatException exception) {
             throw new TemException("The task number must be a whole number.");
         }
