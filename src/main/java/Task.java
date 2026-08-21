@@ -3,15 +3,18 @@
  */
 public abstract class Task {
     private final String description;
+    private final TaskType taskType;
     private boolean isDone;
 
     /**
      * Creates an incomplete task with the given description.
      *
      * @param description description supplied by the user
+     * @param taskType fixed type of this task
      */
-    public Task(String description) {
+    public Task(String description, TaskType taskType) {
         this.description = description;
+        this.taskType = taskType;
         this.isDone = false;
     }
 
@@ -39,19 +42,12 @@ public abstract class Task {
     }
 
     /**
-     * Returns the letter identifying this task's type.
-     *
-     * @return task type letter
-     */
-    protected abstract String getTaskTypeIcon();
-
-    /**
      * Returns this task in the format shown to the user.
      *
      * @return task type, completion status, and description
      */
     @Override
     public String toString() {
-        return "[" + getTaskTypeIcon() + "][" + getStatusIcon() + "] " + description;
+        return "[" + taskType.getDisplaySymbol() + "][" + getStatusIcon() + "] " + description;
     }
 }
