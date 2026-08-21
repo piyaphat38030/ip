@@ -13,11 +13,11 @@ public class Tem {
      * @param args command-line arguments, which are not used
      */
     public static void main(String[] args) {
-        String banner = " _____                 \n"
-                + "|_   _|__ _ __ ___     \n"
-                + "  | |/ _ \\ '_ ` _ \\    \n"
-                + "  | |  __/ | | | | |   \n"
-                + "  |_|\\___|_| |_| |_|   \n";
+        String banner = " _____\n"
+                + "|_   _|__ _ __ ___\n"
+                + "  | |/ _ \\ '_ ` _ \\\n"
+                + "  | |  __/ | | | | |\n"
+                + "  |_|\\___|_| |_| |_|\n";
         System.out.println(DIVIDER);
         System.out.println(banner);
         System.out.println("Hello! I'm Tem.");
@@ -28,7 +28,7 @@ public class Tem {
         Task[] tasks = new Task[MAX_TASKS];
         int taskCount = 0;
         while (scanner.hasNextLine()) {
-            String command = scanner.nextLine();
+            String command = scanner.nextLine().trim();
 
             if (command.equals("bye")) {
                 System.out.println("Bye. Hope to see you again soon!");
@@ -36,29 +36,30 @@ public class Tem {
                 break;
             }
 
-            if (command.equals("list")) {
-                printTaskList(tasks, taskCount);
-            } else if (command.startsWith("mark ")) {
-                Task task = getTask(command, tasks, taskCount);
-                if (task != null) {
+            try {
+                if (command.equals("list")) {
+                    printTaskList(tasks, taskCount);
+                } else if (command.equals("mark") || command.startsWith("mark ")) {
+                    Task task = getTask(command, tasks, taskCount);
                     task.markAsDone();
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + task);
-                }
-            } else if (command.startsWith("unmark ")) {
-                Task task = getTask(command, tasks, taskCount);
-                if (task != null) {
+                } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+                    Task task = getTask(command, tasks, taskCount);
                     task.unmarkAsDone();
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println("  " + task);
-                }
-            } else {
-                Task task = createTask(command);
-                if (task != null) {
+                } else {
+                    if (taskCount == MAX_TASKS) {
+                        throw new TemException("Your task list is full. Delete a task before adding another one.");
+                    }
+                    Task task = createTask(command);
                     tasks[taskCount] = task;
                     taskCount++;
                     printAddedTask(task, taskCount);
                 }
+            } catch (TemException exception) {
+                System.out.println("Error: " + exception.getMessage());
             }
             System.out.println(DIVIDER);
         }
@@ -68,36 +69,47 @@ public class Tem {
      * Creates a task from a task-creation command.
      *
      * @param command command entered by the user
-     * @return the task described by the command, or {@code null} for invalid input
+     * @return the task described by the command
+     * @throws TemException if the command is unknown or required details are missing
      */
-    private static Task createTask(String command) {
-        if (command.startsWith("todo ")) {
-            return new Todo(command.substring("todo ".length()));
+    private static Task createTask(String command) throws TemException {
+        if (command.equals("todo") || command.startsWith("todo ")) {
+            String description = command.substring("todo".length()).trim();
+            ensurePresent(description, "A todo needs a description. Try: todo read a book");
+            return new Todo(description);
         }
-        if (command.startsWith("deadline ")) {
-            return createDeadline(command.substring("deadline ".length()));
+        if (command.equals("deadline") || command.startsWith("deadline ")) {
+            return createDeadline(command.substring("deadline".length()).trim());
         }
-        if (command.startsWith("event ")) {
-            return createEvent(command.substring("event ".length()));
+        if (command.equals("event") || command.startsWith("event ")) {
+            return createEvent(command.substring("event".length()).trim());
         }
-        System.out.println("I don't understand that command.");
-        return null;
+        if (command.isEmpty()) {
+            throw new TemException("Please enter a command.");
+        }
+        throw new TemException("I don't recognise that command. Try todo, deadline, event, list, mark, unmark, or bye.");
     }
 
     /**
      * Creates a deadline from text in the form {@code description /by time}.
      *
      * @param details deadline description and due time
-     * @return the created deadline, or {@code null} if the due time is missing
+     * @return the created deadline
+     * @throws TemException if the description or due time is missing
      */
-    private static Task createDeadline(String details) {
+    private static Task createDeadline(String details) throws TemException {
         int byIndex = details.indexOf(" /by ");
-        if (byIndex < 0) {
-            System.out.println("Use: deadline DESCRIPTION /by TIME");
-            return null;
+        if (details.startsWith("/by ")) {
+            byIndex = 0;
         }
-        String description = details.substring(0, byIndex);
-        String by = details.substring(byIndex + " /by ".length());
+        if (byIndex < 0) {
+            throw new TemException("A deadline needs a due time. Try: deadline return book /by Sunday");
+        }
+        String description = details.substring(0, byIndex).trim();
+        int byValueStart = byIndex == 0 ? "/by ".length() : byIndex + " /by ".length();
+        String by = details.substring(byValueStart).trim();
+        ensurePresent(description, "A deadline needs a description before /by.");
+        ensurePresent(by, "A deadline needs a due time after /by.");
         return new Deadline(description, by);
     }
 
@@ -105,18 +117,21 @@ public class Tem {
      * Creates an event from text in the form {@code description /from start /to end}.
      *
      * @param details event description, start time, and end time
-     * @return the created event, or {@code null} if either time is missing
+     * @return the created event
+     * @throws TemException if the description, start time, or end time is missing
      */
-    private static Task createEvent(String details) {
-        int fromIndex = details.indexOf(" /from ");
-        int toIndex = details.indexOf(" /to ");
+    private static Task createEvent(String details) throws TemException {
+        int fromIndex = details.indexOf("/from ");
+        int toIndex = details.indexOf("/to ");
         if (fromIndex < 0 || toIndex < 0 || toIndex < fromIndex) {
-            System.out.println("Use: event DESCRIPTION /from START /to END");
-            return null;
+            throw new TemException("An event needs /from and /to times. Try: event meeting /from Mon 2pm /to 4pm");
         }
-        String description = details.substring(0, fromIndex);
-        String from = details.substring(fromIndex + " /from ".length(), toIndex);
-        String to = details.substring(toIndex + " /to ".length());
+        String description = details.substring(0, fromIndex).trim();
+        String from = details.substring(fromIndex + "/from ".length(), toIndex).trim();
+        String to = details.substring(toIndex + "/to ".length()).trim();
+        ensurePresent(description, "An event needs a description before /from.");
+        ensurePresent(from, "An event needs a start time after /from.");
+        ensurePresent(to, "An event needs an end time after /to.");
         return new Event(description, from, to);
     }
 
@@ -151,19 +166,36 @@ public class Tem {
      * @param command command containing a one-based task number
      * @param tasks tasks currently stored by Tem
      * @param taskCount number of stored tasks
-     * @return the selected task, or {@code null} when the task number is invalid
+     * @return the selected task
+     * @throws TemException if the task number is missing, malformed, or out of range
      */
-    private static Task getTask(String command, Task[] tasks, int taskCount) {
+    private static Task getTask(String command, Task[] tasks, int taskCount) throws TemException {
+        int firstSpaceIndex = command.indexOf(' ');
+        String taskNumberText = firstSpaceIndex < 0 ? "" : command.substring(firstSpaceIndex + 1).trim();
+        if (taskNumberText.isEmpty()) {
+            throw new TemException("Please provide the task number to update.");
+        }
         try {
-            int taskNumber = Integer.parseInt(command.substring(command.indexOf(' ') + 1));
+            int taskNumber = Integer.parseInt(taskNumberText);
             if (taskNumber < 1 || taskNumber > taskCount) {
-                System.out.println("Please provide a task number from 1 to " + taskCount + ".");
-                return null;
+                throw new TemException("Choose a task number from 1 to " + taskCount + ".");
             }
             return tasks[taskNumber - 1];
         } catch (NumberFormatException exception) {
-            System.out.println("Please provide a valid task number.");
-            return null;
+            throw new TemException("The task number must be a whole number.");
+        }
+    }
+
+    /**
+     * Rejects a required command field that contains no visible text.
+     *
+     * @param value field value supplied by the user
+     * @param message explanation of the missing field
+     * @throws TemException if {@code value} is empty
+     */
+    private static void ensurePresent(String value, String message) throws TemException {
+        if (value.isEmpty()) {
+            throw new TemException(message);
         }
     }
 }
