@@ -65,12 +65,13 @@ public class ParserTest {
     }
 
     @Test
-    public void parseTaskIndex_missingNumber_throws() {
-        TaskList tasks = new TaskList();
-        tasks.add(new Todo("read book"));
+    public void parseFindKeyword_validCommand_returnsKeyword() throws TemException {
+        assertEquals("book", Parser.parseFindKeyword("find book"));
+    }
 
-        TemException exception = assertThrows(TemException.class, () ->
-                Parser.parseTaskIndex("mark", tasks, "mark as done"));
-        assertEquals("Please provide the task number to mark as done.", exception.getMessage());
+    @Test
+    public void parseFindKeyword_missingKeyword_throws() {
+        TemException exception = assertThrows(TemException.class, () -> Parser.parseFindKeyword("find"));
+        assertEquals("A find command needs a keyword. Try: find book", exception.getMessage());
     }
 }

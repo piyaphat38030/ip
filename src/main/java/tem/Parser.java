@@ -31,7 +31,7 @@ public class Parser {
             throw new TemException("Please enter a command.");
         }
         throw new TemException(
-                "I don't recognize that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
+                "I don't recognize that command. Try todo, deadline, event, list, mark, unmark, delete, find, or bye.");
     }
 
     /**
@@ -58,6 +58,19 @@ public class Parser {
         } catch (NumberFormatException exception) {
             throw new TemException("The task number must be a whole number.");
         }
+    }
+
+    /**
+     * Extracts the keyword from a find command.
+     *
+     * @param command find command entered by the user
+     * @return keyword to search for
+     * @throws TemException if the keyword is missing
+     */
+    public static String parseFindKeyword(String command) throws TemException {
+        String keyword = command.substring("find".length()).trim();
+        ensurePresent(keyword, "A find command needs a keyword. Try: find book");
+        return keyword;
     }
 
     /**

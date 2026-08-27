@@ -71,4 +71,21 @@ public class TaskList {
     public Task delete(int index) {
         return tasks.remove(index);
     }
+
+    /**
+     * Returns zero-based indices of tasks whose descriptions contain the keyword.
+     *
+     * @param keyword text to search for in task descriptions
+     * @return indices of matching tasks in their current list order
+     */
+    public List<Integer> findMatchingIndices(String keyword) {
+        List<Integer> matchingIndices = new ArrayList<>();
+        String lowerKeyword = keyword.toLowerCase();
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getDescription().toLowerCase().contains(lowerKeyword)) {
+                matchingIndices.add(i);
+            }
+        }
+        return matchingIndices;
+    }
 }
