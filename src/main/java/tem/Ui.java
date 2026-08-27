@@ -1,3 +1,5 @@
+package tem;
+
 import java.util.Scanner;
 
 /**

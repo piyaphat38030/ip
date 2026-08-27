@@ -1,3 +1,5 @@
+package tem;
+
 /**
  * A simple command-line assistant that stores tasks until asked to exit.
  */

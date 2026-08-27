@@ -1,3 +1,5 @@
+package tem;
+
 /**
  * Represents the fixed task categories Tem knows how to store.
  */
