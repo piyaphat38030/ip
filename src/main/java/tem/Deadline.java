@@ -42,6 +42,11 @@ public class Deadline extends Task {
         return "D | " + (isDone() ? "1" : "0") + " | " + getDescription() + " | " + by;
     }
 
+    /**
+     * Returns this deadline with its formatted due date.
+     *
+     * @return task type, completion status, description, and due date
+     */
     @Override
     public String toString() {
         return super.toString() + " (by: " + by.format(DISPLAY_FORMAT) + ")";

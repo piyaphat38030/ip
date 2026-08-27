@@ -60,6 +60,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Creates a deadline from the text that follows the {@code deadline} keyword.
+     *
+     * @param details description and {@code /by} date text
+     * @return parsed deadline task
+     * @throws TemException if required deadline fields are missing or invalid
+     */
     private static Task createDeadline(String details) throws TemException {
         int byIndex = details.indexOf(" /by ");
         if (details.startsWith("/by ")) {
@@ -76,6 +83,13 @@ public class Parser {
         return new Deadline(description, parseDate(byText));
     }
 
+    /**
+     * Parses a deadline date in {@code yyyy-MM-dd} format.
+     *
+     * @param dateText date text supplied after {@code /by}
+     * @return parsed date
+     * @throws TemException if the date text is not in the expected format
+     */
     private static LocalDate parseDate(String dateText) throws TemException {
         try {
             return LocalDate.parse(dateText);
@@ -84,6 +98,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Creates an event from the text that follows the {@code event} keyword.
+     *
+     * @param details description, {@code /from}, and {@code /to} text
+     * @return parsed event task
+     * @throws TemException if required event fields are missing
+     */
     private static Task createEvent(String details) throws TemException {
         int fromIndex = details.indexOf("/from ");
         int toIndex = details.indexOf("/to ");
@@ -99,6 +120,13 @@ public class Parser {
         return new Event(description, from, to);
     }
 
+    /**
+     * Ensures that a required text field is not blank.
+     *
+     * @param value text to validate
+     * @param message error message shown when the text is blank
+     * @throws TemException if the text is blank
+     */
     private static void ensurePresent(String value, String message) throws TemException {
         if (value.isEmpty()) {
             throw new TemException(message);
