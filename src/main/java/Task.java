@@ -33,6 +33,33 @@ public abstract class Task {
     }
 
     /**
+     * Returns whether this task has been marked as done.
+     *
+     * @return {@code true} if the task is completed
+     */
+    public boolean isDone() {
+        return isDone;
+    }
+
+    /**
+     * Returns the task description entered by the user.
+     *
+     * @return task description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Returns the fixed type of this task.
+     *
+     * @return task type
+     */
+    public TaskType getTaskType() {
+        return taskType;
+    }
+
+    /**
      * Returns the symbol used when displaying this task's completion status.
      *
      * @return {@code X} for a completed task, or a space for an incomplete task
@@ -40,6 +67,13 @@ public abstract class Task {
     public String getStatusIcon() {
         return isDone ? "X" : " ";
     }
+
+    /**
+     * Returns one line used when saving this task to disk.
+     *
+     * @return storage line for this task
+     */
+    public abstract String toStorageString();
 
     /**
      * Returns this task in the format shown to the user.

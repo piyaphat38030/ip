@@ -15,6 +15,25 @@ public class Deadline extends Task {
         this.by = by;
     }
 
+    /**
+     * Returns the due time of this deadline.
+     *
+     * @return due time text
+     */
+    public String getBy() {
+        return by;
+    }
+
+    /**
+     * Returns this deadline in the on-disk format {@code D | done | description | by}.
+     *
+     * @return storage line for this deadline
+     */
+    @Override
+    public String toStorageString() {
+        return "D | " + (isDone() ? "1" : "0") + " | " + getDescription() + " | " + by;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " (by: " + by + ")";
