@@ -1,5 +1,6 @@
 package tem;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -133,6 +134,23 @@ public class Ui {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
+        }
+    }
+
+    /**
+     * Shows tasks whose descriptions match the find keyword.
+     *
+     * @param tasks tasks currently stored by Tem
+     * @param matchingIndices zero-based indices of tasks to display
+     */
+    public void showMatchingTasks(TaskList tasks, List<Integer> matchingIndices) {
+        if (matchingIndices.isEmpty()) {
+            System.out.println("No matching tasks in your list.");
+            return;
+        }
+        System.out.println("Here are the matching tasks in your list:");
+        for (int index : matchingIndices) {
+            System.out.println((index + 1) + "." + tasks.get(index));
         }
     }
 }

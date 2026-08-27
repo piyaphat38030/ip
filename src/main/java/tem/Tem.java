@@ -83,6 +83,11 @@ public class Tem {
             ui.showTaskDeleted(deletedTask, tasks.size());
             return;
         }
+        if (command.equals("find") || command.startsWith("find ")) {
+            String keyword = Parser.parseFindKeyword(command);
+            ui.showMatchingTasks(tasks, tasks.findMatchingIndices(keyword));
+            return;
+        }
 
         Task task = Parser.parseTask(command);
         tasks.add(task);
