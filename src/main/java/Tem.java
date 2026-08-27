@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -123,11 +125,11 @@ public class Tem {
     }
 
     /**
-     * Creates a deadline from text in the form {@code description /by time}.
+     * Creates a deadline from text in the form {@code description /by yyyy-MM-dd}.
      *
-     * @param details deadline description and due time
+     * @param details deadline description and due date
      * @return the created deadline
-     * @throws TemException if the description or due time is missing
+     * @throws TemException if the description or due date is missing or invalid
      */
     private static Task createDeadline(String details) throws TemException {
         int byIndex = details.indexOf(" /by ");
@@ -135,14 +137,29 @@ public class Tem {
             byIndex = 0;
         }
         if (byIndex < 0) {
-            throw new TemException("A deadline needs a due time. Try: deadline return book /by Sunday");
+            throw new TemException("A deadline needs a due date. Try: deadline return book /by 2019-10-15");
         }
         String description = details.substring(0, byIndex).trim();
         int byValueStart = byIndex == 0 ? "/by ".length() : byIndex + " /by ".length();
-        String by = details.substring(byValueStart).trim();
+        String byText = details.substring(byValueStart).trim();
         ensurePresent(description, "A deadline needs a description before /by.");
-        ensurePresent(by, "A deadline needs a due time after /by.");
-        return new Deadline(description, by);
+        ensurePresent(byText, "A deadline needs a due date after /by.");
+        return new Deadline(description, parseDate(byText));
+    }
+
+    /**
+     * Parses a date written as {@code yyyy-MM-dd}.
+     *
+     * @param dateText date text supplied by the user
+     * @return parsed date
+     * @throws TemException if {@code dateText} is not a valid {@code yyyy-MM-dd} date
+     */
+    private static LocalDate parseDate(String dateText) throws TemException {
+        try {
+            return LocalDate.parse(dateText);
+        } catch (DateTimeParseException exception) {
+            throw new TemException("Use a date like 2019-10-15 after /by.");
+        }
     }
 
     /**
