@@ -58,6 +58,12 @@ public class Tem {
         new Tem("data/tem.txt").run();
     }
 
+    /**
+     * Executes one user command and updates the task list or storage when needed.
+     *
+     * @param command trimmed command entered by the user
+     * @throws TemException if the command is invalid or refers to a missing task
+     */
     private void handleCommand(String command) throws TemException {
         if (command.equals("list")) {
             ui.showTaskList(tasks);

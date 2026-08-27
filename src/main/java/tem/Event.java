@@ -48,6 +48,11 @@ public class Event extends Task {
         return "E | " + (isDone() ? "1" : "0") + " | " + getDescription() + " | " + from + " | " + to;
     }
 
+    /**
+     * Returns this event with its start and end times.
+     *
+     * @return task type, completion status, description, and event period
+     */
     @Override
     public String toString() {
         return super.toString() + " (from: " + from + " to: " + to + ")";
