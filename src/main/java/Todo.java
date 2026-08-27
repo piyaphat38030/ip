@@ -11,4 +11,14 @@ public class Todo extends Task {
     public Todo(String description) {
         super(description, TaskType.TODO);
     }
+
+    /**
+     * Returns this to-do in the on-disk format {@code T | done | description}.
+     *
+     * @return storage line for this to-do
+     */
+    @Override
+    public String toStorageString() {
+        return "T | " + (isDone() ? "1" : "0") + " | " + getDescription();
+    }
 }

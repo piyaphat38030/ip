@@ -7,6 +7,7 @@ import java.util.Scanner;
  */
 public class Tem {
     private static final String DIVIDER = "____________________________________________________________";
+    private static final Storage STORAGE = new Storage("data", "tem.txt");
 
     /**
      * Starts Tem and processes commands entered through standard input.
@@ -25,8 +26,8 @@ public class Tem {
         System.out.println("What can I do for you?");
         System.out.println(DIVIDER);
 
+        List<Task> tasks = loadTasks();
         Scanner scanner = new Scanner(System.in);
-        List<Task> tasks = new ArrayList<>();
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine().trim();
 
@@ -42,21 +43,25 @@ public class Tem {
                 } else if (command.equals("mark") || command.startsWith("mark ")) {
                     Task task = tasks.get(getTaskIndex(command, tasks, "mark as done"));
                     task.markAsDone();
+                    saveTasks(tasks);
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + task);
                 } else if (command.equals("unmark") || command.startsWith("unmark ")) {
                     Task task = tasks.get(getTaskIndex(command, tasks, "mark as not done"));
                     task.unmarkAsDone();
+                    saveTasks(tasks);
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println("  " + task);
                 } else if (command.equals("delete") || command.startsWith("delete ")) {
                     Task deletedTask = tasks.remove(getTaskIndex(command, tasks, "delete"));
+                    saveTasks(tasks);
                     System.out.println("Noted. I've removed this task:");
                     System.out.println("  " + deletedTask);
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 } else {
                     Task task = createTask(command);
                     tasks.add(task);
+                    saveTasks(tasks);
                     printAddedTask(task, tasks.size());
                 }
             } catch (TemException exception) {
@@ -64,6 +69,32 @@ public class Tem {
             }
             System.out.println(DIVIDER);
         }
+    }
+
+    /**
+     * Loads saved tasks, or starts with an empty list when none exist yet.
+     *
+     * @return tasks restored from disk
+     */
+    private static List<Task> loadTasks() {
+        try {
+            return STORAGE.load();
+        } catch (TemException exception) {
+            System.out.println("Error: " + exception.getMessage());
+            System.out.println("Starting with an empty task list.");
+            System.out.println(DIVIDER);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Writes the current task list to disk after a change.
+     *
+     * @param tasks tasks currently stored by Tem
+     * @throws TemException if saving fails
+     */
+    private static void saveTasks(List<Task> tasks) throws TemException {
+        STORAGE.save(tasks);
     }
 
     /**
