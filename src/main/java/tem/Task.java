@@ -1,3 +1,5 @@
+package tem;
+
 /**
  * Represents one task in Tem's task list and whether it has been completed.
  */

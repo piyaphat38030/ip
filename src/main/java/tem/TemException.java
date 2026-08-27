@@ -1,3 +1,5 @@
+package tem;
+
 /**
  * Represents an input error that can be shown to the Tem user.
  */
