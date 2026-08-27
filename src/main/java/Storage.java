@@ -14,13 +14,11 @@ public class Storage {
 
     /**
      * Creates a storage helper for the given relative file path.
-     * Parts are joined in an OS-independent way, for example {@code data} and {@code tem.txt}.
      *
-     * @param first first relative path segment from the project root
-     * @param more remaining relative path segments
+     * @param filePath relative path from the project root, for example {@code data/tem.txt}
      */
-    public Storage(String first, String... more) {
-        this.filePath = Path.of(first, more);
+    public Storage(String filePath) {
+        this.filePath = Path.of(filePath);
     }
 
     /**
