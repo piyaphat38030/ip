@@ -31,7 +31,7 @@ public class Parser {
             throw new TemException("Please enter a command.");
         }
         throw new TemException(
-                "I don't recognise that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
+                "I don't recognize that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
     }
 
     /**
