@@ -99,30 +99,30 @@ public class Storage {
 
         Task task;
         switch (type) {
-        case "T":
-            if (parts.length != 3) {
+            case "T":
+                if (parts.length != 3) {
+                    return null;
+                }
+                task = new Todo(description);
+                break;
+            case "D":
+                if (parts.length != 4 || parts[3].isEmpty()) {
+                    return null;
+                }
+                try {
+                    task = new Deadline(description, LocalDate.parse(parts[3]));
+                } catch (DateTimeParseException exception) {
+                    return null;
+                }
+                break;
+            case "E":
+                if (parts.length != 5 || parts[3].isEmpty() || parts[4].isEmpty()) {
+                    return null;
+                }
+                task = new Event(description, parts[3], parts[4]);
+                break;
+            default:
                 return null;
-            }
-            task = new Todo(description);
-            break;
-        case "D":
-            if (parts.length != 4 || parts[3].isEmpty()) {
-                return null;
-            }
-            try {
-                task = new Deadline(description, LocalDate.parse(parts[3]));
-            } catch (DateTimeParseException exception) {
-                return null;
-            }
-            break;
-        case "E":
-            if (parts.length != 5 || parts[3].isEmpty() || parts[4].isEmpty()) {
-                return null;
-            }
-            task = new Event(description, parts[3], parts[4]);
-            break;
-        default:
-            return null;
         }
 
         if (isDone) {
