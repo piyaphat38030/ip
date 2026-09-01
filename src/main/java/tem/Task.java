@@ -78,6 +78,35 @@ public abstract class Task {
     public abstract String toStorageString();
 
     /**
+     * Escapes characters that would break the save-file field format.
+     *
+     * @param field raw field text
+     * @return escaped text safe to write as one field
+     */
+    protected static String escapeStorageField(String field) {
+        StringBuilder escaped = new StringBuilder();
+        for (char character : field.toCharArray()) {
+            switch (character) {
+                case '\\':
+                    escaped.append("\\\\");
+                    break;
+                case '|':
+                    escaped.append("\\|");
+                    break;
+                case '\n':
+                    escaped.append("\\n");
+                    break;
+                case '\r':
+                    escaped.append("\\r");
+                    break;
+                default:
+                    escaped.append(character);
+            }
+        }
+        return escaped.toString();
+    }
+
+    /**
      * Returns this task in the format shown to the user.
      *
      * @return task type, completion status, and description

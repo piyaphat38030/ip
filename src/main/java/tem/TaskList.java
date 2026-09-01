@@ -37,10 +37,10 @@ public class TaskList {
     /**
      * Returns the tasks in this list.
      *
-     * @return tasks currently stored
+     * @return unmodifiable view of tasks currently stored
      */
     public List<Task> getTasks() {
-        return tasks;
+        return List.copyOf(tasks);
     }
 
     /**

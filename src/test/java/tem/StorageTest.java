@@ -66,4 +66,21 @@ public class StorageTest {
         assertEquals("read book", loadedTasks.get(0).getDescription());
         assertEquals("return book", loadedTasks.get(1).getDescription());
     }
+
+    @Test
+    public void saveAndLoad_specialCharactersInDescription_preservesText() throws TemException {
+        Path filePath = tempDir.resolve("tem.txt");
+        Storage storage = new Storage(filePath.toString());
+
+        Task todo = new Todo("read | book");
+        Task event = new Event("meet\\team", "Mon 2|pm", "4pm");
+
+        storage.save(List.of(todo, event));
+        List<Task> loadedTasks = storage.load();
+
+        assertEquals(2, loadedTasks.size());
+        assertEquals("read | book", loadedTasks.get(0).getDescription());
+        assertEquals("meet\\team", loadedTasks.get(1).getDescription());
+        assertEquals("Mon 2|pm", ((Event) loadedTasks.get(1)).getFrom());
+    }
 }

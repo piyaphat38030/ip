@@ -39,7 +39,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toStorageString() {
-        return "D | " + (isDone() ? "1" : "0") + " | " + getDescription() + " | " + by;
+        return "D | " + (isDone() ? "1" : "0") + " | " + escapeStorageField(getDescription()) + " | " + by;
     }
 
     /**

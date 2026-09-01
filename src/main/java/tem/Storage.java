@@ -85,14 +85,14 @@ public class Storage {
             return null;
         }
 
-        String[] parts = trimmed.split("\\s*\\|\\s*");
+        String[] parts = splitFields(trimmed);
         if (parts.length < 3) {
             return null;
         }
 
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
-        String description = parts[2];
+        String description = unescapeStorageField(parts[2]);
         if (description.isEmpty()) {
             return null;
         }
@@ -110,7 +110,7 @@ public class Storage {
                     return null;
                 }
                 try {
-                    task = new Deadline(description, LocalDate.parse(parts[3]));
+                    task = new Deadline(description, LocalDate.parse(unescapeStorageField(parts[3])));
                 } catch (DateTimeParseException exception) {
                     return null;
                 }
@@ -119,7 +119,7 @@ public class Storage {
                 if (parts.length != 5 || parts[3].isEmpty() || parts[4].isEmpty()) {
                     return null;
                 }
-                task = new Event(description, parts[3], parts[4]);
+                task = new Event(description, unescapeStorageField(parts[3]), unescapeStorageField(parts[4]));
                 break;
             default:
                 return null;
@@ -129,5 +129,69 @@ public class Storage {
             task.markAsDone();
         }
         return task;
+    }
+
+    /**
+     * Splits a storage line into fields, respecting escaped pipe characters.
+     *
+     * @param line trimmed storage line
+     * @return field values without surrounding whitespace
+     */
+    private static String[] splitFields(String line) {
+        List<String> parts = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+
+        for (int i = 0; i < line.length(); i++) {
+            char character = line.charAt(i);
+            if (character == '\\' && i + 1 < line.length() && line.charAt(i + 1) == '|') {
+                current.append('\\').append('|');
+                i++;
+                continue;
+            }
+            if (character == '|') {
+                parts.add(current.toString().trim());
+                current = new StringBuilder();
+                continue;
+            }
+            current.append(character);
+        }
+        parts.add(current.toString().trim());
+        return parts.toArray(new String[0]);
+    }
+
+    /**
+     * Reverses {@link Task#escapeStorageField(String)} for one loaded field.
+     *
+     * @param field escaped field text from disk
+     * @return original field text
+     */
+    private static String unescapeStorageField(String field) {
+        StringBuilder unescaped = new StringBuilder();
+        for (int i = 0; i < field.length(); i++) {
+            char character = field.charAt(i);
+            if (character == '\\' && i + 1 < field.length()) {
+                char next = field.charAt(i + 1);
+                switch (next) {
+                    case '\\':
+                        unescaped.append('\\');
+                        break;
+                    case '|':
+                        unescaped.append('|');
+                        break;
+                    case 'n':
+                        unescaped.append('\n');
+                        break;
+                    case 'r':
+                        unescaped.append('\r');
+                        break;
+                    default:
+                        unescaped.append(next);
+                }
+                i++;
+            } else {
+                unescaped.append(character);
+            }
+        }
+        return unescaped.toString();
     }
 }

@@ -115,27 +115,26 @@ public class Tem {
     }
 
     private String executeCommand(String command) throws TemException {
-        if (command.equals("list")) {
-            return ui.taskListMessage(tasks);
+        String commandWord = command.split(" ", 2)[0];
+        switch (commandWord) {
+            case "list":
+                return ui.taskListMessage(tasks);
+            case "mark":
+                return withSave(markTask(command));
+            case "unmark":
+                return withSave(unmarkTask(command));
+            case "delete":
+                return withSave(deleteTask(command));
+            case "find": {
+                String keyword = Parser.parseFindKeyword(command);
+                return ui.matchingTasksMessage(tasks, tasks.findMatchingIndices(keyword));
+            }
+            default:
+                Task task = Parser.parseTask(command);
+                tasks.add(task);
+                storage.save(tasks.getTasks());
+                return ui.taskAddedMessage(task, tasks.size());
         }
-        if (command.equals("mark") || command.startsWith("mark ")) {
-            return withSave(markTask(command));
-        }
-        if (command.equals("unmark") || command.startsWith("unmark ")) {
-            return withSave(unmarkTask(command));
-        }
-        if (command.equals("delete") || command.startsWith("delete ")) {
-            return withSave(deleteTask(command));
-        }
-        if (command.equals("find") || command.startsWith("find ")) {
-            String keyword = Parser.parseFindKeyword(command);
-            return ui.matchingTasksMessage(tasks, tasks.findMatchingIndices(keyword));
-        }
-
-        Task task = Parser.parseTask(command);
-        tasks.add(task);
-        storage.save(tasks.getTasks());
-        return ui.taskAddedMessage(task, tasks.size());
     }
 
     private String withSave(String response) throws TemException {
