@@ -26,6 +26,15 @@ public class TaskList {
     }
 
     /**
+     * Creates a task list containing the given tasks in order.
+     *
+     * @param tasks initial tasks to store
+     */
+    public TaskList(Task... tasks) {
+        this.tasks = new ArrayList<>(List.of(tasks));
+    }
+
+    /**
      * Returns the tasks in this list.
      *
      * @return tasks currently stored
@@ -51,6 +60,17 @@ public class TaskList {
      */
     public Task get(int index) {
         return tasks.get(index);
+    }
+
+    /**
+     * Adds multiple tasks to the end of the list.
+     *
+     * @param tasksToAdd tasks to append
+     */
+    public void addAll(Task... tasksToAdd) {
+        for (Task task : tasksToAdd) {
+            tasks.add(task);
+        }
     }
 
     /**
