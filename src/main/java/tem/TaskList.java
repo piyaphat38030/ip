@@ -2,6 +2,8 @@ package tem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Stores the current task list and provides operations to change it.
@@ -99,13 +101,10 @@ public class TaskList {
      * @return indices of matching tasks in their current list order
      */
     public List<Integer> findMatchingIndices(String keyword) {
-        List<Integer> matchingIndices = new ArrayList<>();
         String lowerKeyword = keyword.toLowerCase();
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).getDescription().toLowerCase().contains(lowerKeyword)) {
-                matchingIndices.add(i);
-            }
-        }
-        return matchingIndices;
+        return IntStream.range(0, tasks.size())
+                .filter(i -> tasks.get(i).getDescription().toLowerCase().contains(lowerKeyword))
+                .boxed()
+                .collect(Collectors.toList());
     }
 }
