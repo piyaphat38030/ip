@@ -81,29 +81,12 @@ public class Ui {
     }
 
     /**
-     * Shows an error message for an invalid command or action.
-     *
-     * @param message explanation of the error
-     */
-    public void showError(String message) {
-        System.out.println(message);
-    }
-
-    /**
      * Returns the farewell message when the user exits.
      *
      * @return goodbye text
      */
     public String goodbyeMessage() {
         return "Bye. Hope to see you again soon!";
-    }
-
-    /**
-     * Shows the farewell message when the user exits.
-     */
-    public void showGoodbye() {
-        System.out.println(goodbyeMessage());
-        showLine();
     }
 
     /**
@@ -118,16 +101,6 @@ public class Ui {
     }
 
     /**
-     * Shows confirmation after a task is added.
-     *
-     * @param task task that was added
-     * @param taskCount number of tasks now in the list
-     */
-    public void showTaskAdded(Task task, int taskCount) {
-        System.out.println(taskAddedMessage(task, taskCount));
-    }
-
-    /**
      * Returns confirmation text after a task is marked as done.
      *
      * @param task task that was marked
@@ -138,15 +111,6 @@ public class Ui {
     }
 
     /**
-     * Shows confirmation after a task is marked as done.
-     *
-     * @param task task that was marked
-     */
-    public void showTaskMarked(Task task) {
-        System.out.println(taskMarkedMessage(task));
-    }
-
-    /**
      * Returns confirmation text after a task is marked as not done.
      *
      * @param task task that was unmarked
@@ -154,15 +118,6 @@ public class Ui {
      */
     public String taskUnmarkedMessage(Task task) {
         return "OK, I've marked this task as not done yet:\n  " + task;
-    }
-
-    /**
-     * Shows confirmation after a task is marked as not done.
-     *
-     * @param task task that was unmarked
-     */
-    public void showTaskUnmarked(Task task) {
-        System.out.println(taskUnmarkedMessage(task));
     }
 
     /**
@@ -177,16 +132,6 @@ public class Ui {
     }
 
     /**
-     * Shows confirmation after a task is deleted.
-     *
-     * @param task task that was removed
-     * @param taskCount number of tasks remaining in the list
-     */
-    public void showTaskDeleted(Task task, int taskCount) {
-        System.out.println(taskDeletedMessage(task, taskCount));
-    }
-
-    /**
      * Returns every task in the list with its one-based position.
      *
      * @param tasks tasks currently stored by Tem
@@ -198,15 +143,6 @@ public class Ui {
             message.append('\n').append(i + 1).append('.').append(tasks.get(i));
         }
         return message.toString();
-    }
-
-    /**
-     * Shows every task in the list with its one-based position.
-     *
-     * @param tasks tasks currently stored by Tem
-     */
-    public void showTaskList(TaskList tasks) {
-        System.out.println(taskListMessage(tasks));
     }
 
     /**
@@ -225,15 +161,5 @@ public class Ui {
             message.append('\n').append(index + 1).append('.').append(tasks.get(index));
         }
         return message.toString();
-    }
-
-    /**
-     * Shows tasks whose descriptions match the find keyword.
-     *
-     * @param tasks tasks currently stored by Tem
-     * @param matchingIndices zero-based indices of tasks to display
-     */
-    public void showMatchingTasks(TaskList tasks, List<Integer> matchingIndices) {
-        System.out.println(matchingTasksMessage(tasks, matchingIndices));
     }
 }
