@@ -22,6 +22,7 @@ public class TaskList {
      * @param tasks initial tasks to store
      */
     public TaskList(List<Task> tasks) {
+        assert tasks != null : "Initial task list should not be null";
         this.tasks = new ArrayList<>(tasks);
     }
 
@@ -31,6 +32,7 @@ public class TaskList {
      * @param tasks initial tasks to store
      */
     public TaskList(Task... tasks) {
+        assert tasks != null : "Initial task array should not be null";
         this.tasks = new ArrayList<>(List.of(tasks));
     }
 
@@ -59,6 +61,7 @@ public class TaskList {
      * @return selected task
      */
     public Task get(int index) {
+        assert index >= 0 && index < tasks.size() : "Task index should be within list bounds";
         return tasks.get(index);
     }
 
@@ -79,6 +82,7 @@ public class TaskList {
      * @param task task to add
      */
     public void add(Task task) {
+        assert task != null : "Added task should not be null";
         tasks.add(task);
     }
 
@@ -89,6 +93,7 @@ public class TaskList {
      * @return removed task
      */
     public Task delete(int index) {
+        assert index >= 0 && index < tasks.size() : "Task index should be within list bounds";
         return tasks.remove(index);
     }
 
