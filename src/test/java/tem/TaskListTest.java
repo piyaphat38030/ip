@@ -3,6 +3,8 @@ package tem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,5 +33,11 @@ public class TaskListTest {
     public void getTasks_returnsUnmodifiableView() {
         TaskList tasks = new TaskList(new Todo("read"));
         assertThrows(UnsupportedOperationException.class, () -> tasks.getTasks().add(new Todo("write")));
+    }
+
+    @Test
+    public void findMatchingIndices_partialKeyword_returnsMatchingIndices() {
+        TaskList tasks = new TaskList(new Todo("read book"), new Todo("write essay"), new Todo("book flight"));
+        assertEquals(List.of(0, 2), tasks.findMatchingIndices("book"));
     }
 }
