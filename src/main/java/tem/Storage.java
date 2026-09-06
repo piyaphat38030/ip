@@ -54,6 +54,7 @@ public class Storage {
      * @throws TemException if the file or its parent folder cannot be written
      */
     public void save(List<Task> tasks) throws TemException {
+        assert tasks != null : "Tasks to save should not be null";
         try {
             Path parent = filePath.getParent();
             if (parent != null) {
@@ -61,6 +62,9 @@ public class Storage {
             }
 
             List<String> lines = tasks.stream()
+                    .peek(task -> {
+                        assert task != null : "Saved task list should not contain null entries";
+                    })
                     .map(Task::toStorageString)
                     .collect(Collectors.toList());
             Files.write(filePath, lines);

@@ -44,6 +44,9 @@ public class Parser {
      * @throws TemException if the task number is missing, malformed, or out of range
      */
     public static int parseTaskIndex(String command, TaskList tasks, String action) throws TemException {
+        assert command != null : "Command text should not be null";
+        assert tasks != null : "Task list should not be null";
+        assert action != null : "Action label should not be null";
         int firstSpaceIndex = command.indexOf(' ');
         String taskNumberText = firstSpaceIndex < 0 ? "" : command.substring(firstSpaceIndex + 1).trim();
         if (taskNumberText.isEmpty()) {
@@ -54,7 +57,10 @@ public class Parser {
             if (taskNumber < 1 || taskNumber > tasks.size()) {
                 throw new TemException("Choose a task number from 1 to " + tasks.size() + ".");
             }
-            return taskNumber - 1;
+            int zeroBasedIndex = taskNumber - 1;
+            assert zeroBasedIndex >= 0 && zeroBasedIndex < tasks.size()
+                    : "Parsed task index should be within list bounds";
+            return zeroBasedIndex;
         } catch (NumberFormatException exception) {
             throw new TemException("The task number must be a whole number.");
         }
