@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Loads and saves Tem's task list using a text file under the project folder.
@@ -31,20 +33,15 @@ public class Storage {
      * @throws TemException if the file exists but cannot be read
      */
     public List<Task> load() throws TemException {
-        List<Task> tasks = new ArrayList<>();
         if (!Files.exists(filePath)) {
-            return tasks;
+            return new ArrayList<>();
         }
 
         try {
-            List<String> lines = Files.readAllLines(filePath);
-            for (String line : lines) {
-                Task task = parseLine(line);
-                if (task != null) {
-                    tasks.add(task);
-                }
-            }
-            return tasks;
+            return Files.readAllLines(filePath).stream()
+                    .map(this::parseLine)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toCollection(ArrayList::new));
         } catch (IOException exception) {
             throw new TemException("Could not read saved tasks from " + filePath + ".");
         }
@@ -63,10 +60,9 @@ public class Storage {
                 Files.createDirectories(parent);
             }
 
-            List<String> lines = new ArrayList<>();
-            for (Task task : tasks) {
-                lines.add(task.toStorageString());
-            }
+            List<String> lines = tasks.stream()
+                    .map(Task::toStorageString)
+                    .collect(Collectors.toList());
             Files.write(filePath, lines);
         } catch (IOException exception) {
             throw new TemException("Could not save tasks to " + filePath + ".");
