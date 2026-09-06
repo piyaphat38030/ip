@@ -162,4 +162,17 @@ public class Ui {
         }
         return message.toString();
     }
+
+    /**
+     * Returns confirmation text after the task list has been sorted.
+     *
+     * @param tasks tasks currently stored by Tem, already in sorted order
+     * @return sorted-list confirmation message
+     */
+    public String tasksSortedMessage(TaskList tasks) {
+        if (tasks.size() == 0) {
+            return "Your task list is empty.";
+        }
+        return "Got it. I've sorted the deadlines chronologically:\n" + taskListMessage(tasks);
+    }
 }

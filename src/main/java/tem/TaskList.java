@@ -1,6 +1,7 @@
 package tem;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -111,5 +112,24 @@ public class TaskList {
                 .filter(i -> tasks.get(i).getDescription().toLowerCase().contains(lowerKeyword))
                 .boxed()
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Reorders tasks so deadlines come first by due date, then other tasks.
+     *
+     * Non-deadline tasks keep their previous relative order after the deadlines.
+     */
+    public void sortChronologically() {
+        List<Task> sortedTasks = new ArrayList<>();
+        tasks.stream()
+                .filter(Deadline.class::isInstance)
+                .map(Deadline.class::cast)
+                .sorted(Comparator.comparing(Deadline::getBy))
+                .forEach(sortedTasks::add);
+        tasks.stream()
+                .filter(task -> !(task instanceof Deadline))
+                .forEach(sortedTasks::add);
+        tasks.clear();
+        tasks.addAll(sortedTasks);
     }
 }
