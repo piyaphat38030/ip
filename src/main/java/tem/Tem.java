@@ -129,6 +129,8 @@ public class Tem {
                 String keyword = Parser.parseFindKeyword(command);
                 return ui.matchingTasksMessage(tasks, tasks.findMatchingIndices(keyword));
             }
+            case "sort":
+                return withSave(sortTasks());
             default:
                 Task task = Parser.parseTask(command);
                 tasks.add(task);
@@ -157,5 +159,10 @@ public class Tem {
     private String deleteTask(String command) throws TemException {
         Task deletedTask = tasks.delete(Parser.parseTaskIndex(command, tasks, "delete"));
         return ui.taskDeletedMessage(deletedTask, tasks.size());
+    }
+
+    private String sortTasks() {
+        tasks.sortChronologically();
+        return ui.tasksSortedMessage(tasks);
     }
 }

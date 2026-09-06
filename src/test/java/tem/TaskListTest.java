@@ -40,4 +40,21 @@ public class TaskListTest {
         TaskList tasks = new TaskList(new Todo("read book"), new Todo("write essay"), new Todo("book flight"));
         assertEquals(List.of(0, 2), tasks.findMatchingIndices("book"));
     }
+
+    @Test
+    public void sortChronologically_deadlinesFirstByDate_thenOtherTasks() {
+        Task laterDeadline = new Deadline("submit report", java.time.LocalDate.of(2019, 12, 2));
+        Task earlierDeadline = new Deadline("return book", java.time.LocalDate.of(2019, 10, 15));
+        Task todo = new Todo("read book");
+        Task event = new Event("meeting", "Mon 2pm", "4pm");
+        TaskList tasks = new TaskList(todo, laterDeadline, event, earlierDeadline);
+
+        tasks.sortChronologically();
+
+        assertEquals(4, tasks.size());
+        assertEquals(earlierDeadline, tasks.get(0));
+        assertEquals(laterDeadline, tasks.get(1));
+        assertEquals(todo, tasks.get(2));
+        assertEquals(event, tasks.get(3));
+    }
 }
