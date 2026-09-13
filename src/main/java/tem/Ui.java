@@ -13,6 +13,8 @@ public class Ui {
             + "  | |/ _ \\ '_ ` _ \\\n"
             + "  | |  __/ | | | | |\n"
             + "  |_|\\___|_| |_| |_|\n";
+    private static final String WELCOME_MESSAGE = "Hello, I'm Tem. I help you keep tasks organized.\n"
+            + "What would you like to add today?";
 
     private final Scanner scanner;
 
@@ -24,12 +26,12 @@ public class Ui {
     }
 
     /**
-     * Returns the welcome banner and greeting shown at startup.
+     * Returns the greeting shown at startup.
      *
      * @return welcome text without divider lines
      */
     public String welcomeMessage() {
-        return BANNER + "\nHello, I'm Tem, your calm task companion.\nWhat would you like to keep on your radar?";
+        return WELCOME_MESSAGE;
     }
 
     /**
@@ -37,7 +39,7 @@ public class Ui {
      */
     public void showWelcome() {
         showLine();
-        System.out.println(welcomeMessage());
+        System.out.println(BANNER + "\n" + welcomeMessage());
         showLine();
     }
 

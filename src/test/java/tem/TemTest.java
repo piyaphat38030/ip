@@ -107,6 +107,14 @@ public class TemTest {
     }
 
     @Test
+    public void welcomeMessage_guiGreetingDoesNotContainAsciiBanner() {
+        Tem tem = new Tem(tempDir.resolve("tem.txt").toString());
+
+        assertEquals("Hello, I'm Tem. I help you keep tasks organized.\nWhat would you like to add today?",
+                tem.welcomeMessage());
+    }
+
+    @Test
     public void isExit_extraWhitespaceAroundBye_returnsTrue() {
         Tem tem = new Tem(tempDir.resolve("tem.txt").toString());
 

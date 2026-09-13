@@ -31,8 +31,8 @@ public class MainWindow extends AnchorPane {
 
     private Tem tem;
 
-    private final Image userImage = createAvatar(Color.web("#5b8def"));
-    private final Image temImage = createAvatar(Color.web("#3aa17e"));
+    private final Image userImage = createAvatar(Color.web("#64748b"));
+    private final Image temImage = createAvatar(Color.web("#2563eb"));
 
     @FXML
     private void initialize() {
@@ -58,10 +58,7 @@ public class MainWindow extends AnchorPane {
         if (input == null || input.isBlank()) {
             return;
         }
-        String response = tem.getResponse(input);
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getTemDialog(response, temImage, tem.wasLastResponseAnError()));
+        addConversation(input);
         userInput.clear();
 
         if (tem.isExit(input)) {
@@ -71,6 +68,13 @@ public class MainWindow extends AnchorPane {
             delay.setOnFinished(event -> Platform.exit());
             delay.play();
         }
+    }
+
+    private void addConversation(String input) {
+        String response = tem.getResponse(input);
+        dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog(input, userImage),
+                DialogBox.getTemDialog(response, temImage, tem.wasLastResponseAnError()));
     }
 
     private static Image createAvatar(Color color) {

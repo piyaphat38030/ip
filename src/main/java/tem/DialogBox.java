@@ -22,8 +22,10 @@ public class DialogBox extends HBox {
     private Label dialog;
     @FXML
     private ImageView displayPicture;
+    @FXML
+    private Label avatarInitial;
 
-    private DialogBox(String text, Image image) {
+    private DialogBox(String text, Image image, String initial) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
@@ -35,6 +37,7 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(image);
+        avatarInitial.setText(initial);
         getStyleClass().add("dialog-box");
         dialog.getStyleClass().add("dialog-label");
         displayPicture.getStyleClass().add("avatar");
@@ -58,7 +61,7 @@ public class DialogBox extends HBox {
      * @return user dialog box
      */
     public static DialogBox getUserDialog(String text, Image image) {
-        DialogBox dialogBox = new DialogBox(text, image);
+        DialogBox dialogBox = new DialogBox(text, image, "Y");
         dialogBox.getStyleClass().add("user-dialog");
         return dialogBox;
     }
@@ -83,7 +86,7 @@ public class DialogBox extends HBox {
      * @return Tem dialog box
      */
     public static DialogBox getTemDialog(String text, Image image, boolean isError) {
-        DialogBox dialogBox = new DialogBox(text, image);
+        DialogBox dialogBox = new DialogBox(text, image, "T");
         dialogBox.flip();
         dialogBox.getStyleClass().add(isError ? "error-dialog" : "tem-dialog");
         return dialogBox;
