@@ -111,5 +111,5 @@ Save your changes and close Tem with:
 bye
 ```
 
-Tasks are saved automatically after you add, complete, uncomplete, delete, or
-sort them. They will still be available the next time you open Tem.
+Tasks are saved automatically after you add, mark, unmark, delete, or sort
+them. They will still be available the next time you open Tem.
