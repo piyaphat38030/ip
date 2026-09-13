@@ -18,7 +18,7 @@ import javafx.util.Duration;
  * Controller for the main chat window.
  */
 public class MainWindow extends AnchorPane {
-    private static final int AVATAR_SIZE = 80;
+    private static final int AVATAR_SIZE = 36;
 
     @FXML
     private ScrollPane scrollPane;
@@ -55,13 +55,13 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        if (input.isBlank()) {
+        if (input == null || input.isBlank()) {
             return;
         }
         String response = tem.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getTemDialog(response, temImage));
+                DialogBox.getTemDialog(response, temImage, tem.wasLastResponseAnError()));
         userInput.clear();
 
         if (tem.isExit(input)) {

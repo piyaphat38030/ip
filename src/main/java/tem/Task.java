@@ -55,6 +55,31 @@ public abstract class Task {
     }
 
     /**
+     * Returns whether this task represents the same work as another task.
+     *
+     * Completion status is deliberately excluded so that a completed task is
+     * not added again by mistake.
+     *
+     * @param other task to compare with this task
+     * @return whether both tasks have the same type, description, and schedule details
+     */
+    public boolean hasSameDetails(Task other) {
+        return other != null
+                && taskType == other.taskType
+                && description.equalsIgnoreCase(other.description)
+                && getScheduleDetails().equals(other.getScheduleDetails());
+    }
+
+    /**
+     * Returns task-specific date or time details used when comparing tasks.
+     *
+     * @return details that distinguish tasks of the same type and description
+     */
+    protected String getScheduleDetails() {
+        return "";
+    }
+
+    /**
      * Returns the fixed type of this task.
      *
      * @return task type

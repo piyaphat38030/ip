@@ -10,6 +10,7 @@ public class Tem {
     private final Ui ui;
     private final TaskList tasks;
     private final String loadingErrorMessage;
+    private boolean wasLastResponseAnError;
 
     /**
      * Creates Tem using the default save-file location.
@@ -89,7 +90,16 @@ public class Tem {
      * @return whether the input requests an exit
      */
     public boolean isExit(String input) {
-        return input.trim().equals("bye");
+        return input != null && normalizeSpaces(input).equals("bye");
+    }
+
+    /**
+     * Returns whether the most recent response corrected an invalid command.
+     *
+     * @return whether the latest response is an error message
+     */
+    public boolean wasLastResponseAnError() {
+        return wasLastResponseAnError;
     }
 
     /**
@@ -99,8 +109,10 @@ public class Tem {
      * @return response to show the user
      */
     public String getResponse(String input) {
-        String command = input.trim();
+        wasLastResponseAnError = false;
+        String command = input == null ? "" : normalizeSpaces(input);
         if (command.isEmpty()) {
+            wasLastResponseAnError = true;
             return "Please enter a command.";
         }
         if (command.equals("bye")) {
@@ -110,6 +122,7 @@ public class Tem {
         try {
             return executeCommand(command);
         } catch (TemException exception) {
+            wasLastResponseAnError = true;
             return exception.getMessage();
         }
     }
@@ -118,6 +131,7 @@ public class Tem {
         String commandWord = command.split(" ", 2)[0];
         switch (commandWord) {
             case "list":
+                ensureNoArguments(command, "list");
                 return ui.taskListMessage(tasks);
             case "mark":
                 return withSave(markTask(command));
@@ -130,9 +144,13 @@ public class Tem {
                 return ui.matchingTasksMessage(tasks, tasks.findMatchingIndices(keyword));
             }
             case "sort":
+                ensureNoArguments(command, "sort");
                 return withSave(sortTasks());
             default:
                 Task task = Parser.parseTask(command);
+                if (tasks.containsEquivalent(task)) {
+                    throw new TemException(ui.duplicateTaskMessage(task));
+                }
                 tasks.add(task);
                 storage.save(tasks.getTasks());
                 return ui.taskAddedMessage(task, tasks.size());
@@ -164,5 +182,28 @@ public class Tem {
     private String sortTasks() {
         tasks.sortChronologically();
         return ui.tasksSortedMessage(tasks);
+    }
+
+    /**
+     * Rejects unnecessary words after a command that has no parameters.
+     *
+     * @param command full command entered by the user
+     * @param commandWord command that accepts no arguments
+     * @throws TemException if the command contains arguments
+     */
+    private void ensureNoArguments(String command, String commandWord) throws TemException {
+        if (!command.equals(commandWord)) {
+            throw new TemException("The " + commandWord + " command does not take any arguments.");
+        }
+    }
+
+    /**
+     * Returns a command with each word separated by one space.
+     *
+     * @param input raw text entered by the user
+     * @return normalized command text
+     */
+    private String normalizeSpaces(String input) {
+        return input.trim().replaceAll("\\s+", " ");
     }
 }

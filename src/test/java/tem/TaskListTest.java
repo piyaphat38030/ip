@@ -1,7 +1,9 @@
 package tem;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -39,6 +41,22 @@ public class TaskListTest {
     public void findMatchingIndices_partialKeyword_returnsMatchingIndices() {
         TaskList tasks = new TaskList(new Todo("read book"), new Todo("write essay"), new Todo("book flight"));
         assertEquals(List.of(0, 2), tasks.findMatchingIndices("book"));
+    }
+
+    @Test
+    public void containsEquivalent_sameTodoWithDifferentCompletionStatus_returnsTrue() {
+        Todo completedTask = new Todo("Read book");
+        completedTask.markAsDone();
+        TaskList tasks = new TaskList(completedTask);
+
+        assertTrue(tasks.containsEquivalent(new Todo("read book")));
+    }
+
+    @Test
+    public void containsEquivalent_sameDeadlineDescriptionDifferentDate_returnsFalse() {
+        TaskList tasks = new TaskList(new Deadline("submit report", java.time.LocalDate.of(2019, 10, 15)));
+
+        assertFalse(tasks.containsEquivalent(new Deadline("submit report", java.time.LocalDate.of(2019, 10, 16))));
     }
 
     @Test

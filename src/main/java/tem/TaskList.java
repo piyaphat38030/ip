@@ -90,6 +90,17 @@ public class TaskList {
     }
 
     /**
+     * Returns whether a task with the same user-visible details is already stored.
+     *
+     * @param candidate task that may be added
+     * @return whether an equivalent task is already in the list
+     */
+    public boolean containsEquivalent(Task candidate) {
+        assert candidate != null : "Candidate task should not be null";
+        return tasks.stream().anyMatch(task -> task.hasSameDetails(candidate));
+    }
+
+    /**
      * Removes and returns the task at the given zero-based index.
      *
      * @param index zero-based position in the list

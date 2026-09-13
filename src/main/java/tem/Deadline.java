@@ -33,6 +33,16 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns the deadline date used when comparing this task with another task.
+     *
+     * @return due date in ISO-8601 format
+     */
+    @Override
+    protected String getScheduleDetails() {
+        return by.toString();
+    }
+
+    /**
      * Returns this deadline in the on-disk format {@code D | done | description | yyyy-MM-dd}.
      *
      * @return storage line for this deadline

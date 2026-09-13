@@ -1,6 +1,7 @@
 package tem;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
@@ -23,6 +24,24 @@ public class StorageTest {
     public void load_missingFile_returnsEmptyList() throws TemException {
         Storage storage = new Storage(tempDir.resolve("missing.txt").toString());
         assertTrue(storage.load().isEmpty());
+    }
+
+    @Test
+    public void load_directoryInsteadOfFile_throwsHelpfulException() {
+        Storage storage = new Storage(tempDir.toString());
+
+        TemException exception = assertThrows(TemException.class, storage::load);
+
+        assertTrue(exception.getMessage().startsWith("Could not read saved tasks from "));
+    }
+
+    @Test
+    public void save_directoryInsteadOfFile_throwsHelpfulException() {
+        Storage storage = new Storage(tempDir.toString());
+
+        TemException exception = assertThrows(TemException.class, () -> storage.save(List.of()));
+
+        assertTrue(exception.getMessage().startsWith("Could not save tasks to "));
     }
 
     @Test

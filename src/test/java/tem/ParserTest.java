@@ -39,6 +39,37 @@ public class ParserTest {
     }
 
     @Test
+    public void parseTask_extraWhitespace_normalizesCommand() throws TemException {
+        Task task = Parser.parseTask("  todo   read   book  ");
+
+        assertEquals("read book", task.getDescription());
+    }
+
+    @Test
+    public void parseTask_duplicateDeadlineMarker_throws() {
+        TemException exception = assertThrows(TemException.class, () ->
+                Parser.parseTask("deadline submit report /by 2019-10-15 /by 2019-10-16"));
+
+        assertEquals("Use /by only once in a deadline.", exception.getMessage());
+    }
+
+    @Test
+    public void parseTask_duplicateEventMarker_throws() {
+        TemException exception = assertThrows(TemException.class, () ->
+                Parser.parseTask("event meeting /from 2pm /from 3pm /to 4pm"));
+
+        assertEquals("Use /from and /to only once each in an event.", exception.getMessage());
+    }
+
+    @Test
+    public void parseTask_eventMarkersOutOfOrder_throws() {
+        TemException exception = assertThrows(TemException.class, () ->
+                Parser.parseTask("event meeting /to 4pm /from 2pm"));
+
+        assertEquals("Place /from before /to in an event.", exception.getMessage());
+    }
+
+    @Test
     public void parseTask_emptyCommand_throws() {
         TemException exception = assertThrows(TemException.class, () -> Parser.parseTask(""));
         assertEquals("Please enter a command.", exception.getMessage());
@@ -62,6 +93,24 @@ public class ParserTest {
         TemException exception = assertThrows(TemException.class, () ->
                 Parser.parseTaskIndex("mark 2", tasks, "mark as done"));
         assertEquals("Choose a task number from 1 to 1.", exception.getMessage());
+    }
+
+    @Test
+    public void parseTaskIndex_noTasks_throwsHelpfulMessage() {
+        TemException exception = assertThrows(TemException.class, () ->
+                Parser.parseTaskIndex("mark 1", new TaskList(), "mark as done"));
+
+        assertEquals("There are no tasks to mark as done.", exception.getMessage());
+    }
+
+    @Test
+    public void parseTaskIndex_multipleArguments_throwsHelpfulMessage() {
+        TaskList tasks = new TaskList(new Todo("read book"));
+
+        TemException exception = assertThrows(TemException.class, () ->
+                Parser.parseTaskIndex("mark 1 2", tasks, "mark as done"));
+
+        assertEquals("Please provide only one task number to mark as done.", exception.getMessage());
     }
 
     @Test

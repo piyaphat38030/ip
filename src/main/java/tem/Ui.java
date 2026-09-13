@@ -29,7 +29,7 @@ public class Ui {
      * @return welcome text without divider lines
      */
     public String welcomeMessage() {
-        return BANNER + "\nHello! I'm Tem.\nWhat can I do for you?";
+        return BANNER + "\nHello, I'm Tem, your calm task companion.\nWhat would you like to keep on your radar?";
     }
 
     /**
@@ -86,7 +86,7 @@ public class Ui {
      * @return goodbye text
      */
     public String goodbyeMessage() {
-        return "Bye. Hope to see you again soon!";
+        return "Take care. Tem will keep your plan ready for next time.";
     }
 
     /**
@@ -97,7 +97,18 @@ public class Ui {
      * @return confirmation message
      */
     public String taskAddedMessage(Task task, int taskCount) {
-        return "Got it. I've added this task:\n  " + task + "\nNow you have " + taskCount + " tasks in the list.";
+        return "Logged. I'm keeping track of this task:\n  " + task
+                + "\nYou now have " + taskCount + " tasks on your radar.";
+    }
+
+    /**
+     * Returns an explanation when a task would duplicate an existing task.
+     *
+     * @param task task that was not added
+     * @return duplicate-task explanation
+     */
+    public String duplicateTaskMessage(Task task) {
+        return "That task is already on your radar:\n  " + task;
     }
 
     /**

@@ -35,6 +35,9 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(image);
+        getStyleClass().add("dialog-box");
+        dialog.getStyleClass().add("dialog-label");
+        displayPicture.getStyleClass().add("avatar");
     }
 
     /**
@@ -55,7 +58,9 @@ public class DialogBox extends HBox {
      * @return user dialog box
      */
     public static DialogBox getUserDialog(String text, Image image) {
-        return new DialogBox(text, image);
+        DialogBox dialogBox = new DialogBox(text, image);
+        dialogBox.getStyleClass().add("user-dialog");
+        return dialogBox;
     }
 
     /**
@@ -66,8 +71,21 @@ public class DialogBox extends HBox {
      * @return Tem dialog box
      */
     public static DialogBox getTemDialog(String text, Image image) {
+        return getTemDialog(text, image, false);
+    }
+
+    /**
+     * Creates a left-aligned Tem dialog, optionally highlighted as an error.
+     *
+     * @param text response from Tem
+     * @param image avatar shown beside the message
+     * @param isError whether the response corrects invalid input
+     * @return Tem dialog box
+     */
+    public static DialogBox getTemDialog(String text, Image image, boolean isError) {
         DialogBox dialogBox = new DialogBox(text, image);
         dialogBox.flip();
+        dialogBox.getStyleClass().add(isError ? "error-dialog" : "tem-dialog");
         return dialogBox;
     }
 }

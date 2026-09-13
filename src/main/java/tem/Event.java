@@ -39,6 +39,16 @@ public class Event extends Task {
     }
 
     /**
+     * Returns the event period used when comparing this task with another task.
+     *
+     * @return start and end details separated by a non-display character
+     */
+    @Override
+    protected String getScheduleDetails() {
+        return from + "\u0000" + to;
+    }
+
+    /**
      * Returns this event in the on-disk format {@code E | done | description | from | to}.
      *
      * @return storage line for this event
