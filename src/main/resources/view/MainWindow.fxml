@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -17,22 +16,20 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="tem.MainWindow">
     <children>
-        <HBox alignment="CENTER_LEFT" prefHeight="72.0" spacing="12.0" styleClass="app-header"
+        <HBox alignment="CENTER_LEFT" prefHeight="64.0" spacing="10.0" styleClass="app-header"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <StackPane prefHeight="40.0" prefWidth="40.0" styleClass="header-avatar">
+                <StackPane prefHeight="36.0" prefWidth="36.0" styleClass="header-avatar">
                     <children>
                         <Label styleClass="header-avatar-initial" text="T" />
                     </children>
                 </StackPane>
-                <VBox spacing="2.0">
+                <VBox minWidth="0.0" spacing="1.0" HBox.hgrow="ALWAYS">
                     <children>
                         <Label styleClass="chat-title" text="Tem" />
                         <Label styleClass="chat-subtitle" text="Your task companion" />
                     </children>
                 </VBox>
-                <Region HBox.hgrow="ALWAYS" />
-                <Label styleClass="status-pill" text="●  Online" />
             </children>
         </HBox>
         <ScrollPane fx:id="scrollPane"
@@ -44,7 +41,7 @@
                     AnchorPane.bottomAnchor="88.0"
                     AnchorPane.leftAnchor="0.0"
                     AnchorPane.rightAnchor="0.0"
-                    AnchorPane.topAnchor="72.0">
+                    AnchorPane.topAnchor="64.0">
             <content>
                 <VBox fx:id="dialogContainer"
                       spacing="10.0" />

@@ -8,11 +8,14 @@ events in one focused chat. Type a command in the message box and press
 
 ## Quick start
 
-Tem requires Java 25. From the project folder, start the application with:
+Tem requires Java 25. After downloading `tem.jar` from the release, start it
+from the folder that contains the file:
 
 ```sh
-./gradlew run
+java -jar tem.jar
 ```
+
+If you are running Tem from its source project instead, use `./gradlew run`.
 
 Commands use lowercase keywords. Extra spaces before, after, or within a
 command are accepted. Task numbers refer to the numbers shown by `list`.

@@ -14,25 +14,16 @@ repositories {
     mavenCentral()
 }
 
-String osName = System.getProperty('os.name').toLowerCase()
-String osArch = System.getProperty('os.arch').toLowerCase()
-String javaFxClassifier
-if (osName.contains('win')) {
-    javaFxClassifier = 'win'
-} else if (osName.contains('mac')) {
-    javaFxClassifier = osArch.contains('aarch64') ? 'mac-aarch64' : 'mac'
-} else {
-    javaFxClassifier = osArch.contains('aarch64') ? 'linux-aarch64' : 'linux'
-}
-
 dependencies {
     String jUnitVersion = '5.14.4'
     String javaFxVersion = '25.0.4'
 
-    implementation "org.openjfx:javafx-base:${javaFxVersion}:${javaFxClassifier}"
-    implementation "org.openjfx:javafx-controls:${javaFxVersion}:${javaFxClassifier}"
-    implementation "org.openjfx:javafx-fxml:${javaFxVersion}:${javaFxClassifier}"
-    implementation "org.openjfx:javafx-graphics:${javaFxVersion}:${javaFxClassifier}"
+    ['win', 'mac', 'mac-aarch64', 'linux', 'linux-aarch64'].each { platform ->
+        implementation "org.openjfx:javafx-base:${javaFxVersion}:${platform}"
+        implementation "org.openjfx:javafx-controls:${javaFxVersion}:${platform}"
+        implementation "org.openjfx:javafx-fxml:${javaFxVersion}:${platform}"
+        implementation "org.openjfx:javafx-graphics:${javaFxVersion}:${platform}"
+    }
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitVersion}"
 

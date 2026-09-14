@@ -31,24 +31,24 @@
     -fx-background-color: #ffffff;
     -fx-border-color: transparent transparent #e2e8f0 transparent;
     -fx-border-width: 0 0 1 0;
-    -fx-padding: 14 20 14 20;
+    -fx-padding: 10 18 10 18;
 }
 
 .header-avatar {
     -fx-alignment: center;
     -fx-background-color: linear-gradient(to bottom right, #2563eb, #4f46e5);
-    -fx-background-radius: 20;
-    -fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.25), 8, 0.2, 0, 2);
+    -fx-background-radius: 18;
+    -fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.25), 6, 0.2, 0, 2);
 }
 
 .header-avatar-initial {
-    -fx-font-size: 17px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
 
 .chat-title {
-    -fx-font-size: 16px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-text-fill: #0f172a;
 }
@@ -56,14 +56,6 @@
 .chat-subtitle {
     -fx-font-size: 11px;
     -fx-text-fill: #64748b;
-}
-
-.status-pill {
-    -fx-background-color: #ecfdf5;
-    -fx-background-radius: 12;
-    -fx-font-size: 11px;
-    -fx-padding: 5 8 5 8;
-    -fx-text-fill: #047857;
 }
 
 #dialogContainer {
