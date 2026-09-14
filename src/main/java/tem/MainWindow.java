@@ -85,8 +85,8 @@ public class MainWindow extends AnchorPane {
             for (int x = 0; x < AVATAR_SIZE; x++) {
                 double dx = x - radius + 0.5;
                 double dy = y - radius + 0.5;
-                boolean insideCircle = dx * dx + dy * dy <= radius * radius;
-                writer.setColor(x, y, insideCircle ? color : Color.TRANSPARENT);
+                boolean isInsideCircle = dx * dx + dy * dy <= radius * radius;
+                writer.setColor(x, y, isInsideCircle ? color : Color.TRANSPARENT);
             }
         }
         return image;
