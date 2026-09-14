@@ -15,7 +15,7 @@ public class Parser {
     /**
      * Creates a task from a task-creation command.
      *
-     * @param command command entered by the user
+     * @param command command entered by the user.
      * @return the task described by the command
      * @throws TemException if the command is unknown or required details are missing
      */
@@ -43,9 +43,9 @@ public class Parser {
     /**
      * Finds the zero-based list position referenced by a numbered task command.
      *
-     * @param command command containing a one-based task number
-     * @param tasks tasks currently stored by Tem
-     * @param action action described in a missing-number error message
+     * @param command command containing a one-based task number.
+     * @param tasks tasks currently stored by Tem.
+     * @param action action described in a missing-number error message.
      * @return zero-based position of the selected task
      * @throws TemException if the task number is missing, malformed, or out of range
      */
@@ -82,7 +82,7 @@ public class Parser {
     /**
      * Extracts the keyword from a find command.
      *
-     * @param command find command entered by the user
+     * @param command find command entered by the user.
      * @return keyword to search for
      * @throws TemException if the keyword is missing
      */
@@ -96,7 +96,7 @@ public class Parser {
     /**
      * Creates a deadline from the text that follows the {@code deadline} keyword.
      *
-     * @param details description and {@code /by} date text
+     * @param details description and {@code /by} date text.
      * @return parsed deadline task
      * @throws TemException if required deadline fields are missing or invalid
      */
@@ -119,7 +119,7 @@ public class Parser {
     /**
      * Parses a deadline date in {@code yyyy-MM-dd} format.
      *
-     * @param dateText date text supplied after {@code /by}
+     * @param dateText date text supplied after {@code /by}.
      * @return parsed date
      * @throws TemException if the date text is not in the expected format
      */
@@ -134,7 +134,7 @@ public class Parser {
     /**
      * Creates an event from the text that follows the {@code event} keyword.
      *
-     * @param details description, {@code /from}, and {@code /to} text
+     * @param details description, {@code /from}, and {@code /to} text.
      * @return parsed event task
      * @throws TemException if required event fields are missing
      */
@@ -164,8 +164,8 @@ public class Parser {
     /**
      * Ensures that a required text field is not blank.
      *
-     * @param value text to validate
-     * @param message error message shown when the text is blank
+     * @param value text to validate.
+     * @param message error message shown when the text is blank.
      * @throws TemException if the text is blank
      */
     private static void ensurePresent(String value, String message) throws TemException {
@@ -177,8 +177,8 @@ public class Parser {
     /**
      * Returns the positions of a command marker when it appears as its own token.
      *
-     * @param details text containing command details
-     * @param marker marker to find, for example {@code /by}
+     * @param details text containing command details.
+     * @param marker marker to find, for example {@code /by}.
      * @return positions of standalone marker tokens
      */
     private static List<Integer> findMarkerPositions(String details, String marker) {
@@ -194,7 +194,7 @@ public class Parser {
     /**
      * Returns command text with leading, trailing, and repeated whitespace removed.
      *
-     * @param command command text supplied by the user
+     * @param command command text supplied by the user.
      * @return command with individual words separated by one space
      */
     private static String normalizeSpaces(String command) {

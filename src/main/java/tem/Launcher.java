@@ -9,7 +9,7 @@ public class Launcher {
     /**
      * Starts the Tem GUI.
      *
-     * @param args command-line arguments, which are not used
+     * @param args command-line arguments, which are not used.
      */
     public static void main(String[] args) {
         Application.launch(Main.class, args);

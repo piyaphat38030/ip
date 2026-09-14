@@ -22,7 +22,7 @@ public class TaskList {
     /**
      * Creates a task list containing the given tasks.
      *
-     * @param tasks initial tasks to store
+     * @param tasks initial tasks to store.
      */
     public TaskList(List<Task> tasks) {
         assert tasks != null : "Initial task list should not be null";
@@ -32,7 +32,7 @@ public class TaskList {
     /**
      * Creates a task list containing the given tasks in order.
      *
-     * @param tasks initial tasks to store
+     * @param tasks initial tasks to store.
      */
     public TaskList(Task... tasks) {
         assert tasks != null : "Initial task array should not be null";
@@ -60,7 +60,7 @@ public class TaskList {
     /**
      * Returns the task at the given zero-based index.
      *
-     * @param index zero-based position in the list
+     * @param index zero-based position in the list.
      * @return selected task
      */
     public Task get(int index) {
@@ -71,7 +71,7 @@ public class TaskList {
     /**
      * Adds multiple tasks to the end of the list.
      *
-     * @param tasksToAdd tasks to append
+     * @param tasksToAdd tasks to append.
      */
     public void addAll(Task... tasksToAdd) {
         for (Task task : tasksToAdd) {
@@ -82,7 +82,7 @@ public class TaskList {
     /**
      * Adds a task to the end of the list.
      *
-     * @param task task to add
+     * @param task task to add.
      */
     public void add(Task task) {
         assert task != null : "Added task should not be null";
@@ -92,7 +92,7 @@ public class TaskList {
     /**
      * Returns whether a task with the same user-visible details is already stored.
      *
-     * @param candidate task that may be added
+     * @param candidate task that may be added.
      * @return whether an equivalent task is already in the list
      */
     public boolean containsEquivalent(Task candidate) {
@@ -103,7 +103,7 @@ public class TaskList {
     /**
      * Removes and returns the task at the given zero-based index.
      *
-     * @param index zero-based position in the list
+     * @param index zero-based position in the list.
      * @return removed task
      */
     public Task delete(int index) {
@@ -114,7 +114,7 @@ public class TaskList {
     /**
      * Returns zero-based indices of tasks whose descriptions contain the keyword.
      *
-     * @param keyword text to search for in task descriptions
+     * @param keyword text to search for in task descriptions.
      * @return indices of matching tasks in their current list order
      */
     public List<Integer> findMatchingIndices(String keyword) {

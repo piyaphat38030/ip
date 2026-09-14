@@ -19,7 +19,7 @@ public class Storage {
     /**
      * Creates a storage helper for the given relative file path.
      *
-     * @param filePath relative path from the project root, for example {@code data/tem.txt}
+     * @param filePath relative path from the project root, for example {@code data/tem.txt}.
      */
     public Storage(String filePath) {
         this.filePath = Path.of(filePath);
@@ -50,7 +50,7 @@ public class Storage {
     /**
      * Writes the full task list to disk, creating parent folders when needed.
      *
-     * @param tasks tasks to save
+     * @param tasks tasks to save.
      * @throws TemException if the file or its parent folder cannot be written
      */
     public void save(List<Task> tasks) throws TemException {
@@ -76,7 +76,7 @@ public class Storage {
     /**
      * Converts one storage line into a task, or {@code null} when the line is blank or corrupt.
      *
-     * @param line raw line from the save file
+     * @param line raw line from the save file.
      * @return parsed task, or {@code null} if the line should be ignored
      */
     private Task parseLine(String line) {
@@ -134,7 +134,7 @@ public class Storage {
     /**
      * Splits a storage line into fields, respecting escaped pipe characters.
      *
-     * @param line trimmed storage line
+     * @param line trimmed storage line.
      * @return field values without surrounding whitespace
      */
     private static String[] splitFields(String line) {
@@ -162,7 +162,7 @@ public class Storage {
     /**
      * Reverses {@link Task#escapeStorageField(String)} for one loaded field.
      *
-     * @param field escaped field text from disk
+     * @param field escaped field text from disk.
      * @return original field text
      */
     private static String unescapeStorageField(String field) {

@@ -11,8 +11,8 @@ public abstract class Task {
     /**
      * Creates an incomplete task with the given description.
      *
-     * @param description description supplied by the user
-     * @param taskType fixed type of this task
+     * @param description description supplied by the user.
+     * @param taskType fixed type of this task.
      */
     public Task(String description, TaskType taskType) {
         assert description != null : "Task description should not be null";
@@ -60,7 +60,7 @@ public abstract class Task {
      * Completion status is deliberately excluded so that a completed task is
      * not added again by mistake.
      *
-     * @param other task to compare with this task
+     * @param other task to compare with this task.
      * @return whether both tasks have the same type, description, and schedule details
      */
     public boolean hasSameDetails(Task other) {
@@ -107,7 +107,7 @@ public abstract class Task {
     /**
      * Escapes characters that would break the save-file field format.
      *
-     * @param field raw field text
+     * @param field raw field text.
      * @return escaped text safe to write as one field
      */
     protected static String escapeStorageField(String field) {

@@ -22,7 +22,7 @@ public class Tem {
     /**
      * Creates Tem using the given relative save-file path.
      *
-     * @param filePath relative path to the task save file, for example {@code data/tem.txt}
+     * @param filePath relative path to the task save file, for example {@code data/tem.txt}.
      */
     public Tem(String filePath) {
         ui = new Ui();
@@ -65,7 +65,7 @@ public class Tem {
     /**
      * Starts Tem with the default save file location.
      *
-     * @param args command-line arguments, which are not used
+     * @param args command-line arguments, which are not used.
      */
     public static void main(String[] args) {
         new Tem().run();
@@ -86,7 +86,7 @@ public class Tem {
     /**
      * Returns true if the given input is the bye command.
      *
-     * @param input raw user input
+     * @param input raw user input.
      * @return whether the input requests an exit
      */
     public boolean isExit(String input) {
@@ -105,7 +105,7 @@ public class Tem {
     /**
      * Processes one line of user input and returns Tem's response text.
      *
-     * @param input raw user input
+     * @param input raw user input.
      * @return response to show the user
      */
     public String getResponse(String input) {
@@ -187,8 +187,8 @@ public class Tem {
     /**
      * Rejects unnecessary words after a command that has no parameters.
      *
-     * @param command full command entered by the user
-     * @param commandWord command that accepts no arguments
+     * @param command full command entered by the user.
+     * @param commandWord command that accepts no arguments.
      * @throws TemException if the command contains arguments
      */
     private void ensureNoArguments(String command, String commandWord) throws TemException {
@@ -200,7 +200,7 @@ public class Tem {
     /**
      * Returns a command with each word separated by one space.
      *
-     * @param input raw text entered by the user
+     * @param input raw text entered by the user.
      * @return normalized command text
      */
     private String normalizeSpaces(String input) {

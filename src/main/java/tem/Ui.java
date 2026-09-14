@@ -65,7 +65,7 @@ public class Ui {
     /**
      * Returns text explaining a loading failure.
      *
-     * @param message explanation of the loading problem
+     * @param message explanation of the loading problem.
      * @return loading error message
      */
     public String loadingErrorMessage(String message) {
@@ -75,7 +75,7 @@ public class Ui {
     /**
      * Shows an error that occurred while loading saved tasks.
      *
-     * @param message explanation of the loading problem
+     * @param message explanation of the loading problem.
      */
     public void showLoadingError(String message) {
         System.out.println(loadingErrorMessage(message));
@@ -94,8 +94,8 @@ public class Ui {
     /**
      * Returns confirmation text after a task is added.
      *
-     * @param task task that was added
-     * @param taskCount number of tasks now in the list
+     * @param task task that was added.
+     * @param taskCount number of tasks now in the list.
      * @return confirmation message
      */
     public String taskAddedMessage(Task task, int taskCount) {
@@ -106,7 +106,7 @@ public class Ui {
     /**
      * Returns an explanation when a task would duplicate an existing task.
      *
-     * @param task task that was not added
+     * @param task task that was not added.
      * @return duplicate-task explanation
      */
     public String duplicateTaskMessage(Task task) {
@@ -116,7 +116,7 @@ public class Ui {
     /**
      * Returns confirmation text after a task is marked as done.
      *
-     * @param task task that was marked
+     * @param task task that was marked.
      * @return confirmation message
      */
     public String taskMarkedMessage(Task task) {
@@ -126,7 +126,7 @@ public class Ui {
     /**
      * Returns confirmation text after a task is marked as not done.
      *
-     * @param task task that was unmarked
+     * @param task task that was unmarked.
      * @return confirmation message
      */
     public String taskUnmarkedMessage(Task task) {
@@ -136,8 +136,8 @@ public class Ui {
     /**
      * Returns confirmation text after a task is deleted.
      *
-     * @param task task that was removed
-     * @param taskCount number of tasks remaining in the list
+     * @param task task that was removed.
+     * @param taskCount number of tasks remaining in the list.
      * @return confirmation message
      */
     public String taskDeletedMessage(Task task, int taskCount) {
@@ -147,7 +147,7 @@ public class Ui {
     /**
      * Returns every task in the list with its one-based position.
      *
-     * @param tasks tasks currently stored by Tem
+     * @param tasks tasks currently stored by Tem.
      * @return formatted task list
      */
     public String taskListMessage(TaskList tasks) {
@@ -161,8 +161,8 @@ public class Ui {
     /**
      * Returns tasks whose descriptions match the find keyword.
      *
-     * @param tasks tasks currently stored by Tem
-     * @param matchingIndices zero-based indices of tasks to display
+     * @param tasks tasks currently stored by Tem.
+     * @param matchingIndices zero-based indices of tasks to display.
      * @return formatted matching tasks, or an empty-list message
      */
     public String matchingTasksMessage(TaskList tasks, List<Integer> matchingIndices) {
@@ -179,7 +179,7 @@ public class Ui {
     /**
      * Returns confirmation text after the task list has been sorted.
      *
-     * @param tasks tasks currently stored by Tem, already in sorted order
+     * @param tasks tasks currently stored by Tem, already in sorted order.
      * @return sorted-list confirmation message
      */
     public String tasksSortedMessage(TaskList tasks) {

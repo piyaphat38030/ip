@@ -14,6 +14,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private final Tem tem = new Tem();
 
+    /**
+     * Starts the primary Tem window.
+     *
+     * @param stage application window supplied by JavaFX.
+     */
     @Override
     public void start(Stage stage) {
         try {

@@ -8,7 +8,7 @@ public class TemException extends Exception {
     /**
      * Creates an exception with a user-facing explanation of the input error.
      *
-     * @param message explanation of how the input should be corrected
+     * @param message explanation of how the input should be corrected.
      */
     public TemException(String message) {
         super(message);

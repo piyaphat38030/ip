@@ -42,7 +42,7 @@ public class MainWindow extends AnchorPane {
     /**
      * Supplies the Tem instance that handles user input.
      *
-     * @param tem chatbot backing this window
+     * @param tem chatbot backing this window.
      */
     public void setTem(Tem tem) {
         this.tem = tem;

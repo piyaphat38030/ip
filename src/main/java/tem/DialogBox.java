@@ -56,8 +56,8 @@ public class DialogBox extends HBox {
     /**
      * Creates a right-aligned dialog box for user input.
      *
-     * @param text message entered by the user
-     * @param image avatar shown beside the message
+     * @param text message entered by the user.
+     * @param image avatar shown beside the message.
      * @return user dialog box
      */
     public static DialogBox getUserDialog(String text, Image image) {
@@ -69,8 +69,8 @@ public class DialogBox extends HBox {
     /**
      * Creates a left-aligned dialog box for Tem's reply.
      *
-     * @param text response from Tem
-     * @param image avatar shown beside the message
+     * @param text response from Tem.
+     * @param image avatar shown beside the message.
      * @return Tem dialog box
      */
     public static DialogBox getTemDialog(String text, Image image) {
@@ -80,9 +80,9 @@ public class DialogBox extends HBox {
     /**
      * Creates a left-aligned Tem dialog, optionally highlighted as an error.
      *
-     * @param text response from Tem
-     * @param image avatar shown beside the message
-     * @param isError whether the response corrects invalid input
+     * @param text response from Tem.
+     * @param image avatar shown beside the message.
+     * @param isError whether the response corrects invalid input.
      * @return Tem dialog box
      */
     public static DialogBox getTemDialog(String text, Image image, boolean isError) {
